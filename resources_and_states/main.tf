@@ -19,7 +19,7 @@ resource "azurerm_public_ip" "public_ip" {
   allocation_method   = each.value.public_ip.allocation_method
 }
 
-resource "azurerm_subnet" "subnet" {
+resource "azurerm_subnet" "Subnet" {
   for_each             = { for vpce in var.azure_vm : vpce.subnet.name => vpce }
   name                 = each.value.subnet.name
   resource_group_name  = azurerm_resource_group.main.name
@@ -51,7 +51,7 @@ resource "azurerm_network_interface" "ni" {
   resource_group_name = azurerm_resource_group.main.name
   ip_configuration {
     name                          = each.value.network_interface.ip_configuration.name
-    subnet_id                     = azurerm_subnet.subnet[each.value.subnet.name].id
+    subnet_id                     = azurerm_subnet.Subnet[each.value.subnet.name].id
     private_ip_address_allocation = each.value.network_interface.ip_configuration.private_ip_address_allocation
     public_ip_address_id          = azurerm_public_ip.public_ip[each.value.public_ip.name].id
   }
